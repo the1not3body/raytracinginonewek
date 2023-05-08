@@ -2,11 +2,15 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray.h"
+// #include "ray.h"
+#include "rtweekend.h"
+
+class material;
 
 struct hit_record {
     point3 p; // 碰撞点
     vec3 normal; // 碰撞点处的法向量
+    shared_ptr<material> mat_ptr; // 材质
     double t; // 光线进行的长度
     bool front_face;
     // 现在要判断光线碰撞点上，所碰撞的光线是来自于物体内部 还是物体外部。 比如说玻璃球

@@ -45,7 +45,20 @@ public:
         return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
     }
 
-public:
+    bool near_zero() const {
+        // 返回true 如果向量接近于零向量
+        const auto s = 1e-8;
+        return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+    }
+
+    inline static vec3 random() {
+        return vec3(random_double(), random_double(), random_double());
+    }
+
+    inline static vec3 random(double min, double max) {
+        return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+    }
+public: 
     double e[3]; // 三维向量
 };
 
@@ -97,6 +110,39 @@ inline vec3 cross(const vec3 &u, const vec3 &v) { // 叉乘
 
 inline vec3 unit_vector(vec3 v) { // 单位向量
     return v / v.length();
+}
+
+inline vec3 random_in_uint_sphere() { // 方法1 实现漫反射 random vector 
+    while (true)
+    {
+        auto p = vec3::random(-1, 1);
+        if (p.length_squared() >= 1) continue;
+        return p;
+    }
+}
+
+vec3 random_unit_vector() {
+    return unit_vector(random_in_uint_sphere());
+}
+
+/*
+方法2 A more intuitive approach is to have a uniform scatter direction for all angles 
+away from the hit point, with no dependence on the angle from the normal. 
+Many of the first raytracing papers used this diffuse method (before adopting Lambertian diffuse)
+*/ 
+
+vec3 random_in_hemisphere(const vec3& normal) {
+    vec3 in_unit_sphere = random_in_uint_sphere();
+    if (dot(in_unit_sphere, normal) > 0.0) {
+        return in_unit_sphere;
+    } else {
+        return -in_unit_sphere;
+    }
+}
+
+// 反射方程
+vec3 reflect(const vec3& v, const vec3& n) {
+    return v - 2*dot(v, n)*n;
 }
 
 #endif
