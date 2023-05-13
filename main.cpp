@@ -71,6 +71,7 @@ int main() {
     const int max_depth = 50;
 
     // World
+    auto R = cos(pi / 4);
     hittable_list world;
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
@@ -86,7 +87,7 @@ int main() {
     world.add(make_shared<sphere>(point3(-1.0,    0.0, -1.0),  -0.4, material_left));
     world.add(make_shared<sphere>(point3( 1.0,    0.0, -1.0),   0.5, material_right));
     // Camera
-    camera cam;
+    camera cam(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 20.0, aspect_ratio);
     // auto viewport_height = 2.0;
     // auto viewport_width = aspect_ratio * viewport_height;
     // auto focal_length = 1.0;
