@@ -114,7 +114,7 @@ inline vec3 unit_vector(vec3 v) { // 单位向量
 
 /// @brief 
 /// @return 
-inline vec3 random_in_uint_sphere() { // 方法1 实现漫反射 random vector 
+vec3 random_in_uint_sphere() { // 方法1 实现漫反射 random vector 
     while (true)
     {
         auto p = vec3::random(-1, 1);
@@ -125,6 +125,14 @@ inline vec3 random_in_uint_sphere() { // 方法1 实现漫反射 random vector
 
 vec3 random_unit_vector() {
     return unit_vector(random_in_uint_sphere());
+}
+
+vec3 random_in_unit_disk() {
+    while(true) {
+        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.length_squared() >= 1) continue;
+        return p;
+    }  
 }
 
 /*
@@ -141,6 +149,8 @@ vec3 random_in_hemisphere(const vec3& normal) {
         return -in_unit_sphere;
     }
 }
+
+
 
 // 反射方程
 vec3 reflect(const vec3& v, const vec3& n) {
