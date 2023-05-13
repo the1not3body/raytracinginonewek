@@ -12,7 +12,7 @@ struct hit_record {
     vec3 normal; // 碰撞点处的法向量
     shared_ptr<material> mat_ptr; // 材质
     double t; // 光线进行的长度
-    bool front_face;
+    bool front_face; // 如果小于0 说明光线来自于外部
     // 现在要判断光线碰撞点上，所碰撞的光线是来自于物体内部 还是物体外部。 比如说玻璃球
     // 处理的方法是 假设碰撞点的法向量总是超向外部
     // 如果光线方向和该点的法向量方向一致，那么我们认为这一点来自于光线的内部
